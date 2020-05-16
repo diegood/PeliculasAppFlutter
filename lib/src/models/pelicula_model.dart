@@ -10,6 +10,7 @@ class Peliculas{
 }
 
 class Pelicula {
+  String uId;
   double popularity;
   int id;
   bool video;
@@ -63,6 +64,11 @@ class Pelicula {
   getPosterImg(){
     if(posterPath == null){return 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcST3DnJqQp8xHyQIOv9rk9jp_6cAJyOG1YxjOYb_81C1sh6Hlme&usqp=CAU';}
     return 'https://image.tmdb.org/t/p/w500/$posterPath';
+  }
+  
+  getBackgorundImg(){
+    if(posterPath == null){return 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcST3DnJqQp8xHyQIOv9rk9jp_6cAJyOG1YxjOYb_81C1sh6Hlme&usqp=CAU';}
+    return 'https://image.tmdb.org/t/p/w500/$backdropPath';
   }
 
 }

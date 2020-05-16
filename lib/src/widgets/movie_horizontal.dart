@@ -24,26 +24,29 @@ class MovieHorizontal extends StatelessWidget {
     return Container(
       height: _screenSize.height * 0.2,
       child: PageView.builder(
-        pageSnapping: false,
-        controller: _pageController,
-        itemCount: peliculas.length,
-        itemBuilder: (context, i) =>  _tarjeta(context, peliculas[i])
-      ),
+          pageSnapping: false,
+          controller: _pageController,
+          itemCount: peliculas.length,
+          itemBuilder: (context, i) => _tarjeta(context, peliculas[i])),
     );
   }
 
   Widget _tarjeta(BuildContext context, Pelicula pelicula) {
-    return Container(
+    pelicula.uId ='${pelicula.id}-horizontal';
+    final tarjeta = Container(
         margin: EdgeInsets.only(right: 15.0),
         child: Column(
           children: <Widget>[
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: FadeInImage(
-                image: NetworkImage(pelicula.getPosterImg()),
-                placeholder: AssetImage('assets/img/loading.gif'),
-                fit: BoxFit.cover,
-                height: 160.0,
+            Hero(
+              tag: pelicula.uId,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: FadeInImage(
+                  image: NetworkImage(pelicula.getPosterImg()),
+                  placeholder: AssetImage('assets/img/loading.gif'),
+                  fit: BoxFit.cover,
+                  height: 160.0,
+                ),
               ),
             ),
             SizedBox(height: 5.0),
@@ -54,6 +57,12 @@ class MovieHorizontal extends StatelessWidget {
             )
           ],
         ));
-  }
 
+    return GestureDetector(
+      child: tarjeta,
+      onTap: () {
+        Navigator.pushNamed(context, 'detalle', arguments: pelicula);
+      },
+    );
+  }
 }
