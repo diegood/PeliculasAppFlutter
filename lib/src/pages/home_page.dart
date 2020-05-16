@@ -9,6 +9,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    peliculasProvider.getPopulares();
+
     return Scaffold(
         appBar: AppBar(
           centerTitle: false,
@@ -58,25 +61,39 @@ class HomePage extends StatelessWidget {
           Container(
             padding: EdgeInsets.only(left: 20.0),
             child: Text(
-              'populares',
-              style: Theme.of(context).textTheme.subhead,
+              'Populares',
+              style: Theme.of(context).textTheme.subtitle2,
             ),
           ),
-          SizedBox(height: 5.0,),
-          FutureBuilder(
-            future: peliculasProvider.getPopulares(),
-            builder:
-                (BuildContext context, AsyncSnapshot<List<Pelicula>> snapshot) {
+          SizedBox(
+            height: 5.0,
+          ),
+          StreamBuilder(
+            stream: peliculasProvider.popularesStream,
+            builder:(BuildContext context, AsyncSnapshot<List<Pelicula>> snapshot) {
               if (snapshot.hasData) {
-                return MovieHorizontal(peliculas: snapshot.data);
+                return MovieHorizontal(peliculas: snapshot.data, siguientePagina: peliculasProvider.getPopulares,);
               } else {
-                return Center(child: CircularProgressIndicator(),heightFactor: 5,);
+                return Center(
+                  child: CircularProgressIndicator(),
+                  heightFactor: 5,
+                );
               }
             },
-          ),
+          )
+          // FutureBuilder(
+          //   future: peliculasProvider.getPopulares(),
+          //   builder:
+          //       (BuildContext context, AsyncSnapshot<List<Pelicula>> snapshot) {
+          //     if (snapshot.hasData) {
+          //       return MovieHorizontal(peliculas: snapshot.data);
+          //     } else {
+          //       return Center(child: CircularProgressIndicator(),heightFactor: 5,);
+          //     }
+          //   },
+          // ),
         ],
       ),
     );
   }
-
 }
